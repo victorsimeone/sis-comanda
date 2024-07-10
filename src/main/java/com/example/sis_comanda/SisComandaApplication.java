@@ -15,6 +15,8 @@ public class SisComandaApplication {
 		SpringApplication.run(SisComandaApplication.class, args);
 	}
 
+
+
 	public OpenAPI openAPI(@Value("${springdoc.version}") String appVersion) {
 		return new OpenAPI()
 				.components(new Components())
