@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/cliente")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Cliente", description = "Recursos relacionados ao cliente")
 public class ClienteController {
 
@@ -41,7 +44,7 @@ public class ClienteController {
         ClienteResponse clienteResponse = convertEntityToClienteResponse(cliente);
         return ResponseEntity.ok(clienteResponse);
     }
-
+    @PreAuthorize("hasRole('PRODUCT_SELECT')")
     @GetMapping
     @Operation(description = "Buscar Clientes", summary = "Buscar Clientes")
     @ApiResponses(value = {
@@ -56,7 +59,7 @@ public class ClienteController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(clienteResponses);
     }
-
+    @PreAuthorize("hasRole('PRODUCT_CREATE')")
     @PostMapping
     @Operation(description = "Criar Cliente", summary = "Criar Cliente")
     @ApiResponses(value = {
@@ -70,7 +73,7 @@ public class ClienteController {
         clienteService.salvar(cliente);
         return ResponseEntity.ok(convertEntityToClienteResponse(cliente));
     }
-
+    @PreAuthorize("hasRole('PRODUCT_UPDATE')")
     @PutMapping("/{idCliente}")
     @Operation(description = "Atualizar Cliente", summary = "Atualizar Cliente")
     @ApiResponses(value = {
@@ -85,7 +88,7 @@ public class ClienteController {
         return ResponseEntity.ok(convertEntityToClienteResponse(clienteAtualizado));
 
     }
-
+@PreAuthorize("hasRole('PRODUCT_DELETE')")
     @DeleteMapping("/{idCliente}")
     @Operation(description = "Deletar Cliente", summary = "Deletar Cliente")
     @ApiResponses(value = {

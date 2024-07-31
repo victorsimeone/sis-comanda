@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+public class KeycloakRequest {
 
-public class LoginRequest {
-
-        private String username;
-        private String password;
-
+    private String usuario;
+    private String senha;
 }
